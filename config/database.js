@@ -9,7 +9,9 @@ const connectDatabase = () => {
   })
     .then((data) => {
       console.log(`${colors.fg.green}🗸${colors.reset} Mongodb connected with server: ${colors.fg.cyan}${data.connection.host}${colors.reset}`);
-  })
+    }).catch((err) => {
+      console.log(`${colors.fg.red}✘${colors.reset} Mongodb connection failed with err:`, err.message);
+    })
 }
 
 export default connectDatabase;

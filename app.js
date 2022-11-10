@@ -17,12 +17,14 @@ app.use(cookieParser());
 app.use(cors({credentials: true, origin: process.env.CORS_ORIGIN.split(" ")}));
 
 import user from "./route/user.js"
+import blog from "./route/blog.js"
 
 app.get("/", (_, res) => {
   res.send("<code>✅ Server is up and Running!</code>");
 })
 
 app.use("/", user);
+app.use("/", blog);
 
 // Middlewares
 app.use(ErrorMiddleware);

@@ -36,8 +36,26 @@ export const signin = catchAsyncErrors(async (req, res, next) => {
  
 })
 
-export const getuserdetail = catchAsyncErrors(async (req, res, _next) => {
+export const getThisUser = catchAsyncErrors(async (req, res, next) => {
+
+  if(req.user === null) {
+    res.status(200).json({
+      success: true,
+      user: req.user
+    })
+    return next()
+  }
+
   const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    user
+  })
+})
+
+export const getUser = catchAsyncErrors(async (req, res, _next) => {
+  const user = await User.findById(req.params.id);
 
   res.status(200).json({
     success: true,
