@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 // config
 if(process.env.NODE_ENV !== 'production'){
+  console.log("this is a development environment")
   dotenv.config({path: "./config/config.env"})
 }
 
