@@ -6,13 +6,13 @@ export default (err, _req, res, _next) => {
 
   // Wrong Mongodb id
   if(err.name === "CastError"){
-    const message = `Resource not found. Invalid: ${err.path}`;
+    const message = `Resource not found: ${err.path}: Invalid ${err.path}`;
     err = new ErrorHandler(message, 400);
   }
 
   // Mongoose Duplicate Key error
   if(err.code === 11000){
-    const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
+    const message = `Signup Failed: ${Object.keys(err.keyValue)}: ${Object.keys(err.keyValue)} is taken`;
     err = new ErrorHandler(message, 400);
   }
 

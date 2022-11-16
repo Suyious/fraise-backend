@@ -24,8 +24,18 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Field `password` is required"],
-    minLength: [8, "Field `password` must be more than 8 characters"],
-    select: false,  // makes sure does not appear in select
+    minLength: [8, "password must be more than 8 characters"],
+    select: false,  // makes sure does not appear in query
+  },
+  avatar: {
+    public_id: {
+      type: String,
+      default: ""
+    },
+    url: {
+      type: String,
+      default: ""
+    }
   },
   role: {
     type: String,
