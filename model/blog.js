@@ -10,6 +10,10 @@ const blogSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  draft: {
+    type: Boolean,
+    default: false
+  },
   title: {
     type: String,
     required: true,
@@ -21,7 +25,7 @@ const blogSchema = new mongoose.Schema({
     type: String,
   },
   body: [{
-    type:  "head" | "para" | "quote" | "image" | "quote",
+    type:  "head" | "para" | "quote" | "image" | "code",
 	  value: String    
   }]
 })

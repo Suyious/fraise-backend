@@ -17,7 +17,11 @@ export const getAllBlogs = catchAsyncErrors(async (_req, res, _next) => {
   })
 })
 
-export const createNewBlog = catchAsyncErrors(async (req, res, _next) => {
+export const createNewBlog = catchAsyncErrors(async (req, res, next) => {
+
+  if(req.user === null){
+    return next(new ErrorHandler("You need to be authenticated to access this resource.", 401))
+  }
 
   req.body.author = req.user.id;
 
