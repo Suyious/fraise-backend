@@ -18,15 +18,21 @@ const blogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+  },
   tags: [{
     type: String,
   }],
   image: {
-    type: String,
+    type: String
   },
   body: [{
     type:  "head" | "para" | "quote" | "image" | "code",
-	  value: String    
+    value: String | {
+      url: String,
+      caption: String
+    }
   }]
 })
 

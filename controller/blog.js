@@ -1,10 +1,24 @@
 import Blog from "../model/blog.js"
 import catchAsyncErrors from "../middleware/asyncErrors.js"
 import ErrorHandler from "../utils/error.js";
+import {search} from "../utils/features.js";
+import { v2 as cloudinary } from "cloudinary"
 
-export const getAllBlogs = catchAsyncErrors(async (_req, res, _next) => {
+export const getAllBlogs = catchAsyncErrors(async (req, res, _next) => {
 
-  const blogs = await Blog.find();
+  let blogs = Blog.find().populate("author", "name");
+
+  const { keyword, draft, ...rest } = req.query;
+
+  if(keyword) {
+    blogs = search(blogs, keyword);
+  }
+  if(draft) {
+    blogs = blogs.find({ draft })
+  }
+  blogs = blogs.find(rest);
+
+  blogs = await blogs.exec();
 
   const blogsCount = await Blog.countDocuments();
   const resultCount = blogs.length;
@@ -31,7 +45,31 @@ export const createNewBlog = catchAsyncErrors(async (req, res, next) => {
     success: true,
     blog
   })
+})
 
+export const uploadBlogImage = catchAsyncErrors(async (req, res, _next) => {
+
+  if(req.body.image) {
+
+    const result = await cloudinary.uploader.upload(req.body.image, {
+      folder: "/fraise/content",
+      transformation: {
+        quality: 60
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+
+    req.body.image = {
+      public_id: result.public_id,
+      url: result.secure_url
+    }
+  }
+
+  res.status(200).json({
+    success: true,
+    body: req.body
+  })
 })
 
 export const getBlog = catchAsyncErrors(async (req, res, next) => {

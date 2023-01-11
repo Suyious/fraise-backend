@@ -12,8 +12,8 @@ if(process.env.NODE_ENV !== 'production'){
 import ErrorMiddleware from "./middleware/errors.js";
 
 const app = express();
-app.use(express.json());    // remember the parentheses
-app.use(express.urlencoded({extended: true}));
+app.use(express.json({limit: '5mb'}));    // remember the parentheses
+app.use(express.urlencoded({extended: true, limit: '5mb'}));
 app.use(cookieParser());
 app.use(cors({credentials: true, origin: process.env.CORS_ORIGIN.split(" ")}));
 
