@@ -6,7 +6,7 @@ import { v2 as cloudinary } from "cloudinary"
 
 export const getAllBlogs = catchAsyncErrors(async (req, res, _next) => {
 
-  let blogs = Blog.find().populate("author", "name");
+  let blogs = Blog.find().populate("author", "name email avatar.url");
 
   const { keyword, draft, ...rest } = req.query;
 
@@ -74,7 +74,7 @@ export const uploadBlogImage = catchAsyncErrors(async (req, res, _next) => {
 
 export const getBlog = catchAsyncErrors(async (req, res, next) => {
 
-  const blog = await Blog.findById(req.params.id);
+  const blog = await Blog.findById(req.params.id).populate("author", "name email avatar.url")
 
   if(!blog){
     return next(new ErrorHandler("nothing found", 404));
